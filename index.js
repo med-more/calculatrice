@@ -53,3 +53,31 @@ class calculator{
         
     }
 }
+
+//importer readline 
+const readline = require('readline');
+
+//interface utilisateur
+
+const rl = readline.createInterface({ 
+    input: process.stdin,
+    output: process.stdout
+});
+
+function mainMenu(){
+    console.log(`\n*** Calculatrice ***\n`);
+    console.log("1. Addition (+)");
+    console.log("2. Soustraction (-)");
+    console.log("3. Multiplication (*)");
+    console.log("4. Division (/)");
+    console.log("5. Puissance (^)");
+    console.log("6. Racine carrée (√)");
+    console.log("7. Factorielle (!)");
+    console.log("8. Quitter");
+
+
+    // lire les entrées de l'utilisateur 
+    rl.question("choississez une option : ", (choice) => {
+        handleChoice(choice);
+    });
+}
