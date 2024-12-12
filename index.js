@@ -54,6 +54,7 @@ class calculator{
     }
 }
 
+const { error } = require('console');
 //importer readline 
 const readline = require('readline');
 
@@ -81,3 +82,77 @@ function mainMenu(){
         handleChoice(choice);
     });
 }
+
+function handleChoice(choice){
+    switch(choice){
+        case "1":
+        case "2":
+        case "3":
+        case "4":
+        case "5":
+            rl.question("entrer nombre 1 :", (firstInput)=>{
+                rl.question("entrer nombre 2 :", (secondInput)=>{
+                    try{
+                        const a = calculator.valid(firstInput);
+                        const b = calculator.valid(secondInput);
+                        let result;
+                        switch(choice){
+                            case "1":
+                                result = calculator.add(a, b);
+                                break;
+                            case "2":
+                                result = calculator.subtract(a, b);
+                                break;
+                            case "3":
+                                result = calculator.multiply(a, b);
+                                break;
+                            case "4":
+                                result = calculator.divide(a, b);
+                                break;
+                            case "5":
+                                result = calculator.power(a, b);
+                                break;
+                        }
+                        console.log(`Resultat est : ${result}`);
+                    } catch (error) {
+                        console.error(message.error);
+                    }
+                    mainMenu();
+                });
+            });
+        break;
+        case "6" :
+            rl.question("entrer un nombre :", (input) =>{
+                try{
+                    const a = calculator.valid(input);
+                    const b = calculator.sqrt(a);
+                    console.log(`Resultat est : ${result}`);
+                } catch (error) {
+                    error.log(message.error);
+                }
+                mainMenu();
+            });
+        break;
+        case "7":
+            rl.question("entrer un nombre :", (input)=>{
+                try{
+                    const a = calculator.valid(input);
+                    const b = calculator.factorial(n);
+                    console.log(`Resultat est : ${result}`);
+                } catch (error) {
+                    console.error(message.error);
+                }
+                mainMenu();
+            });
+        break;
+        case "8" :
+            console.log("merci");
+            rl.close();
+        break;
+        default : 
+        console.error("choix invalide");
+        mainMenu();
+        break;
+    }
+}
+mainMenu();
