@@ -54,7 +54,6 @@ class calculator{
     }
 }
 
-const { error } = require('console');
 //importer readline 
 const readline = require('readline');
 
@@ -64,6 +63,8 @@ const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
 });
+
+const calc = new calculator();
 
 function mainMenu(){
     console.log(`\n*** Calculatrice ***\n`);
@@ -93,29 +94,29 @@ function handleChoice(choice){
             rl.question("entrer nombre 1 :", (firstInput)=>{
                 rl.question("entrer nombre 2 :", (secondInput)=>{
                     try{
-                        const a = calculator.valid(firstInput);
-                        const b = calculator.valid(secondInput);
+                        const a = calc.valid(firstInput);
+                        const b = calc.valid(secondInput);
                         let result;
                         switch(choice){
                             case "1":
-                                result = calculator.add(a, b);
+                                result = calc.add(a, b);
                                 break;
                             case "2":
-                                result = calculator.subtract(a, b);
+                                result = calc.subtract(a, b);
                                 break;
                             case "3":
-                                result = calculator.multiply(a, b);
+                                result = calc.multiply(a, b);
                                 break;
                             case "4":
-                                result = calculator.divide(a, b);
+                                result = calc.divide(a, b);
                                 break;
                             case "5":
-                                result = calculator.power(a, b);
+                                result = calc.power(a, b);
                                 break;
                         }
                         console.log(`Resultat est : ${result}`);
                     } catch (error) {
-                        console.error(message.error);
+                        console.error(error.message);
                     }
                     mainMenu();
                 });
@@ -124,11 +125,11 @@ function handleChoice(choice){
         case "6" :
             rl.question("entrer un nombre :", (input) =>{
                 try{
-                    const a = calculator.valid(input);
-                    const b = calculator.sqrt(a);
+                    const a = calc.valid(input);
+                    const result = calc.sqrt(a);
                     console.log(`Resultat est : ${result}`);
                 } catch (error) {
-                    error.log(message.error);
+                    console.error(error.message);
                 }
                 mainMenu();
             });
@@ -136,11 +137,11 @@ function handleChoice(choice){
         case "7":
             rl.question("entrer un nombre :", (input)=>{
                 try{
-                    const a = calculator.valid(input);
-                    const b = calculator.factorial(n);
+                    const a = calc.valid(input);
+                    const result = calc.factorial(n);
                     console.log(`Resultat est : ${result}`);
                 } catch (error) {
-                    console.error(message.error);
+                    console.error(error.message);
                 }
                 mainMenu();
             });
