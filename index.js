@@ -1,72 +1,68 @@
-//creation de classe calculator
+// Import readline pour interagir avec l'utilisateur
+const readline = require('readline');
 
-class calculator{
-    valid(input){
+// Création d'une classe Calculator respectant les principes SOLID
+class Calculator {
+    validateNumber(input) {
         const number = parseFloat(input);
         if (isNaN(number)) {
-            throw new Error(`Entrée invalide : '${input}' pas un nombre`);
+            throw new Error(`Entrée invalide : '${input}' n'est pas un nombre.`);
         }
         return number;
     }
 
-    add(a, b){
-        return a+b;
+    add(a, b) {
+        return a + b;
     }
 
-    subtract(a, b){
-        return a-b;
+    subtract(a, b) {
+        return a - b;
     }
 
-    multiply(a, b){
-        return a*b;
+    multiply(a, b) {
+        return a * b;
     }
 
-    divide(a, b){
+    divide(a, b) {
         if (b === 0) {
-            throw new Error("Division par zéro");
+            throw new Error("Division par zéro impossible.");
         }
-        return a/b;
+        return a / b;
     }
 
-    power(a, b){
+    power(a, b) {
         return Math.pow(a, b);
     }
 
-    sqrt(a){
-        if(a<0){
-            throw new Error("Impossible de calculer la racine carrée d'un nombre négatif");
+    sqrt(a) {
+        if (a < 0) {
+            throw new Error("Impossible de calculer la racine carrée d'un nombre négatif.");
         }
         return Math.sqrt(a);
     }
 
-    factorial(n){
-        if (n<0) {
-            throw new Error("La factorielle d'un nombre négatif");
+    factorial(n) {
+        if (n < 0) {
+            throw new Error("La factorielle d'un nombre négatif n'est pas définie.");
         }
-        if(n === 0 || n ===1) return 1;
+        if (n === 0 || n === 1) return 1;
         let result = 1;
         for (let i = 1; i <= n; i++) {
-            result *=i;   
+            result *= i;
         }
         return result;
-
-        
     }
 }
 
-//importer readline 
-const readline = require('readline');
-
-//interface utilisateur
-
-const rl = readline.createInterface({ 
+// Création de l'interface utilisateur
+const rl = readline.createInterface({
     input: process.stdin,
-    output: process.stdout
+    output: process.stdout,
 });
 
-const calc = new calculator();
+const calculator = new Calculator();
 
-function mainMenu(){
+function mainMenu() {
     console.log(`\n*** Calculatrice ***\n`);
     console.log("1. Addition (+)");
     console.log("2. Soustraction (-)");
@@ -77,83 +73,57 @@ function mainMenu(){
     console.log("7. Factorielle (!)");
     console.log("8. Quitter");
 
+    rl.question("choissisez une option :", (choice) =>{
+        if (choice ==8) {
+            console.log("merci!");
+            rl.close;
+            return;
+        }
 
-    // lire les entrées de l'utilisateur 
-    rl.question("choississez une option : ", (choice) => {
-        handleChoice(choice);
-    });
-}
+        rl.question("entrer nombre 1 :", (firstInput) =>{
+            rl.question("entrer nombre 2 :", (secondInput) =>{
 
-function handleChoice(choice){
-    switch(choice){
-        case "1":
-        case "2":
-        case "3":
-        case "4":
-        case "5":
-            rl.question("entrer nombre 1 :", (firstInput)=>{
-                rl.question("entrer nombre 2 :", (secondInput)=>{
-                    try{
-                        const a = calc.valid(firstInput);
-                        const b = calc.valid(secondInput);
-                        let result;
-                        switch(choice){
-                            case "1":
-                                result = calc.add(a, b);
-                                break;
-                            case "2":
-                                result = calc.subtract(a, b);
-                                break;
-                            case "3":
-                                result = calc.multiply(a, b);
-                                break;
-                            case "4":
-                                result = calc.divide(a, b);
-                                break;
-                            case "5":
-                                result = calc.power(a, b);
-                                break;
-                        }
-                        console.log(`Resultat est : ${result}`);
-                    } catch (error) {
-                        console.error(error.message);
-                    }
-                    mainMenu();
-                });
-            });
-        break;
-        case "6" :
-            rl.question("entrer un nombre :", (input) =>{
-                try{
-                    const a = calc.valid(input);
-                    const result = calc.sqrt(a);
-                    console.log(`Resultat est : ${result}`);
-                } catch (error) {
-                    console.error(error.message);
-                }
+    try{
+                    const a = calculator.validateNumber(firstInput);
+                    const b = calculator.validateNumber(secondInput);
+                    let result;
+        
+            switch (choice){
+            case 1:
+                result = calculator.add(a, b);
+            break;
+            case 2:
+                result = calculator.subtract(a, b);
+            break;
+            case 3:
+                result = calculator.multiply(a, b);
+            break;
+            case 4:
+                 result = calculator.divide(a, b);
+            break;
+            case 5:
+                result = calculator.power(a, b);
+            break;
+            case 6:
+                result = calculator.sqrt(a);
+            break;
+            case 7:
+                result = calculator.factorial(a);
+            break;
+            default :
+                console.error("choix invalid");
                 mainMenu();
-            });
-        break;
-        case "7":
-            rl.question("entrer un nombre :", (input)=>{
-                try{
-                    const a = calc.valid(input);
-                    const result = calc.factorial(n);
-                    console.log(`Resultat est : ${result}`);
-                } catch (error) {
-                    console.error(error.message);
-                }
-                mainMenu();
-            });
-        break;
-        case "8" :
-            console.log("merci");
-            rl.close();
-        break;
-        default : 
-        console.error("choix invalide");
-        mainMenu();
-        break;
+            return;
+        }
+
+        console.log(`Resultat est ${result}`);
+
+    } catch (error){
+            console.error(error.message);
     }
+    mainMenu();
+            });
+        });
+    });
 }
 mainMenu();
